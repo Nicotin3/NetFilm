@@ -9,11 +9,11 @@ let routes = require("./routes/route.js");
 //     "connectTimeoutMS" : 30000
 // };
 // //URL de notre base
-// let urlmongo = "mongodb://localhost/chauffagecannette";
+// let urlmongo = "mongodb://"+process.env.MONGO_PORT_27017_TCP_ADDR+":"+process.env.MONGO_PORT_27017_TCP_PORT;
 //
 // mongoose.connect(urlmongo,options);
 // let db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'Erreur lors de la connexion'));
+// db.on('error', console.error.bind(console, 'Erreur lors de la connexion a la BDD'));
 // db.once('open', function (){
 //     console.log("Connexion à la base OK");
 // });
@@ -35,6 +35,6 @@ app.options('/*',function(req,res,next){
 
 routes(app);
 
-let server = app.listen(8080, function () {
+let server = app.listen(5000, function () {
     console.log("app running on port.", server.address().port);
 });

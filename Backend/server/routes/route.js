@@ -14,6 +14,11 @@ let appRouter = function (app) {
         res.status(200).send("Welcome to our restful API");
     });
 
+    app.get("/films", function (req, res) {
+        let json = mongoose.findOne();
+        res.status(200).send(json);
+    });
+
     app.use(function(req, res){
         res.setHeader('Content-Type', 'text/plain');
         res.status(404).send('Page introuvable !');
