@@ -4,19 +4,19 @@ let bodyParser = require("body-parser");
 let routes = require("./routes/route.js");
 
 // Ces options sont recommandées par mLab pour une connexion à la base
-// let options = {
-//     "keepAlive" : 300000,
-//     "connectTimeoutMS" : 30000
-// };
-// //URL de notre base
-// let urlmongo = "mongodb://"+process.env.MONGO_PORT_27017_TCP_ADDR+":"+process.env.MONGO_PORT_27017_TCP_PORT;
-//
-// mongoose.connect(urlmongo,options);
-// let db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'Erreur lors de la connexion a la BDD'));
-// db.once('open', function (){
-//     console.log("Connexion à la base OK");
-// });
+let options = {
+    "keepAlive" : 300000,
+    "connectTimeoutMS" : 30000
+};
+//URL de notre base
+let urlmongo = "mongodb://"+process.env.MONGO_PORT_27017_TCP_ADDR+":"+process.env.MONGO_PORT_27017_TCP_PORT;
+
+mongoose.connect(urlmongo,options);
+let db = mongoose.connection;
+db.on('error', console.error.bind(console, 'Erreur lors de la connexion a la BDD'));
+db.once('open', function (){
+    console.log("Connexion à la base OK");
+});
 
 let app = express();
 
