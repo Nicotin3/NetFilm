@@ -1,8 +1,15 @@
 let FilmModel = require('./modele');
 // Cet import a pour but de requeter l'API IMDB (pas nécessaire pour la suite)
-let imdb = require('imdb');
+let Client = require('node-rest-client').Client;
+let options ={
+    mimetypes:{
+        json:["application/json","application/json; charset=utf-8"]
+    }
+};
 
-const cli = new imdb.Client({apiKey: '8209cd0d'});
+let apiKey = '8209cd0d';
+
+let client = new Client(options);
 
 let appRouter = function (app) {
 
@@ -28,47 +35,50 @@ let appRouter = function (app) {
 
     app.get("/init", function (req, res) {
         // Test d'ajout dans la BDD
-        cli.search({}).then((search) => {
-            let numberAdded = 0;
-            for (const result of search.results) {
-                if (numberAdded <= 1000) {
-                    console.log(result.title);
-                    let film = new FilmModel(
-                        {
-                            "Title": result.title,
-                            "Year": result.year,
-                            "Rated": result.rated,
-                            "Released": result.released,
-                            "Runtime": result.runtime,
-                            "Genre": result.genre,
-                            "Director": result.director,
-                            "Writer": result.writer,
-                            "Actors": result.Actors,
-                            "Plot": result.plot,
-                            "Language": result.language,
-                            "Country": result.country,
-                            "Awards": result.awards,
-                            "Poster": result.poster,
-                            "Ratings": result.ratings,
-                            "Metascore": result.metascore,
-                            "imdbRating": result.imdbRating,
-                            "imdbVotes": result.imdbVotes,
-                            "imdbID": result.imdbID,
-                            "Type": result.type,
-                            "DVD": result.dvd,
-                            "BoxOffice": result.boxOffice,
-                            "Production": result.production,
-                            "Website": result.website
-                        }
-                    );
-                    film.save(function (err) {
-                        if (err) throw err;
-                        console.log('Film : ' + result.title + ' ajouté');
-                    });
-                    numberAdded++;
-                }
-            }
-        });
+        let start = 3663;
+        while(start <= 3663) {
+            client.get("http://www.omdbapi.com/?i=tt008" + start.toString() + "&apikey=" + apiKey, function (data, response) {
+                console.log(data);
+                console.log(data.response);
+                // if (data.response == "True"){
+                //     for (const result of search.results) {
+                //         console.log(result.title);
+                //         let film = new FilmModel(
+                //             {
+                //                 "Title": result.title,
+                //                 "Year": result.year,
+                //                 "Rated": result.rated,
+                //                 "Released": result.released,
+                //                 "Runtime": result.runtime,
+                //                 "Genre": result.genre,
+                //                 "Director": result.director,
+                //                 "Writer": result.writer,
+                //                 "Actors": result.Actors,
+                //                 "Plot": result.plot,
+                //                 "Language": result.language,
+                //                 "Country": result.country,
+                //                 "Awards": result.awards,
+                //                 "Poster": result.poster,
+                //                 "Ratings": result.ratings,
+                //                 "Metascore": result.metascore,
+                //                 "imdbRating": result.imdbRating,
+                //                 "imdbVotes": result.imdbVotes,
+                //                 "imdbID": result.imdbID,
+                //                 "Type": result.type,
+                //                 "DVD": result.dvd,
+                //                 "BoxOffice": result.boxOffice,
+                //                 "Production": result.production,
+                //                 "Website": result.website
+                //             }
+                //         );
+                //         film.save(function (err) {
+                //             if (err) throw err;
+                //             console.log('Film : ' + result.title + ' ajouté');
+                //         });
+                //     }
+                // }
+            });
+        }
 
         res.setHeader("Content-Type", "application/json");
         res.status(201).send("Insertion réalisée");

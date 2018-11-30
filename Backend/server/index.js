@@ -12,7 +12,7 @@ let options = {
 let urlmongo = "mongodb://"+process.env.MONGO_PORT_27017_TCP_ADDR+":"+process.env.MONGO_PORT_27017_TCP_PORT;
 
 mongoose.connect(urlmongo,options);
-let db = mongoose.connection('NetFilmDB');
+let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Erreur lors de la connexion a la BDD'));
 db.once('open', function (){
     console.log("Connexion à la base OK");
