@@ -39,7 +39,13 @@ let appRouter = function (app) {
         let start = 83663;
         while(start <= 94673) {
             client.get("http://www.omdbapi.com/?i=tt00" + start.toString() + "&apikey=" + apiKey, function (data, response) {
-                const result = JSON.parse(data);
+                try {
+                    const result = JSON.parse(data);
+                }
+                catch(error) {
+                    console.log(error);
+                }
+
                 if (result.Response){
                     filmsAdded.push(result.Title);
                     let film = new FilmModel(
