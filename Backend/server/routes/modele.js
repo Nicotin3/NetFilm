@@ -23,7 +23,7 @@ let FilmSchema = new mongoose.Schema(
                 "Value": String
             }
         ],
-        "Metascore": Number,
+        "Metascore": String,
         "imdbRating": String,
         "imdbVotes": String,
         "imdbID": String,
