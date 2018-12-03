@@ -36,47 +36,45 @@ let appRouter = function (app) {
     app.get("/init", function (req, res) {
         // Test d'ajout dans la BDD
         let start = 3663;
-        while(start <= 3663) {
+        while(start <= 4663) {
             client.get("http://www.omdbapi.com/?i=tt008" + start.toString() + "&apikey=" + apiKey, function (data, response) {
-                console.log(data);
-                console.log(data.response);
-                // if (data.response == "True"){
-                //     for (const result of search.results) {
-                //         console.log(result.title);
-                //         let film = new FilmModel(
-                //             {
-                //                 "Title": result.title,
-                //                 "Year": result.year,
-                //                 "Rated": result.rated,
-                //                 "Released": result.released,
-                //                 "Runtime": result.runtime,
-                //                 "Genre": result.genre,
-                //                 "Director": result.director,
-                //                 "Writer": result.writer,
-                //                 "Actors": result.Actors,
-                //                 "Plot": result.plot,
-                //                 "Language": result.language,
-                //                 "Country": result.country,
-                //                 "Awards": result.awards,
-                //                 "Poster": result.poster,
-                //                 "Ratings": result.ratings,
-                //                 "Metascore": result.metascore,
-                //                 "imdbRating": result.imdbRating,
-                //                 "imdbVotes": result.imdbVotes,
-                //                 "imdbID": result.imdbID,
-                //                 "Type": result.type,
-                //                 "DVD": result.dvd,
-                //                 "BoxOffice": result.boxOffice,
-                //                 "Production": result.production,
-                //                 "Website": result.website
-                //             }
-                //         );
-                //         film.save(function (err) {
-                //             if (err) throw err;
-                //             console.log('Film : ' + result.title + ' ajouté');
-                //         });
-                //     }
-                // }
+                console.log(JSON.parse(data));
+                const result = JSON.parse(data);
+                if (result.Response){
+                    console.log(result.Title);
+                    let film = new FilmModel(
+                        {
+                            "Title": result.Title,
+                            "Year": result.Year,
+                            "Rated": result.Rated,
+                            "Released": result.Released,
+                            "Runtime": result.Runtime,
+                            "Genre": result.Genre,
+                            "Director": result.Director,
+                            "Writer": result.Writer,
+                            "Actors": result.Actors,
+                            "Plot": result.Plot,
+                            "Language": result.Language,
+                            "Country": result.Country,
+                            "Awards": result.Awards,
+                            "Poster": result.Poster,
+                            "Ratings": result.Ratings,
+                            "Metascore": result.Metascore,
+                            "imdbRating": result.imdbRating,
+                            "imdbVotes": result.imdbVotes,
+                            "imdbID": result.imdbID,
+                            "Type": result.Type,
+                            "DVD": result.DVD,
+                            "BoxOffice": result.BoxOffice,
+                            "Production": result.Production,
+                            "Website": result.Website
+                        }
+                    );
+                    film.save(function (err) {
+                        if (err) throw err;
+                        console.log('Film : ' + result.Title + ' ajouté');
+                    });
+                }
             });
         }
 
