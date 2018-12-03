@@ -36,7 +36,7 @@ let appRouter = function (app) {
     app.get("/init", function (req, res) {
         // Test d'ajout dans la BDD
         let start = 3663;
-        while(start <= 4663) {
+        while(start <= 3673) {
             client.get("http://www.omdbapi.com/?i=tt008" + start.toString() + "&apikey=" + apiKey, function (data, response) {
                 console.log(JSON.parse(data));
                 const result = JSON.parse(data);
@@ -76,8 +76,8 @@ let appRouter = function (app) {
                     });
                 }
             });
+            start++;
         }
-
         res.setHeader("Content-Type", "application/json");
         res.status(201).send("Insertion réalisée");
     });

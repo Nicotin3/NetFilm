@@ -5,17 +5,19 @@ let routes = require("./routes/route.js");
 
 // Ces options sont recommandées par mLab pour une connexion à la base
 let options = {
-    "keepAlive" : 300000,
-    "connectTimeoutMS" : 30000
+    keepAlive : 300000,
+    connectTimeoutMS : 30000,
+    useNewUrlParser: true
 };
+let database="netfilmdb";
 //URL de notre base
-let urlmongo = "mongodb://"+process.env.MONGO_PORT_27017_TCP_ADDR+":"+process.env.MONGO_PORT_27017_TCP_PORT;
+let urlmongo = "mongodb://"+process.env.MONGO_PORT_27017_TCP_ADDR+":"+process.env.MONGO_PORT_27017_TCP_PORT+"/"+database;
 
 mongoose.connect(urlmongo,options);
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Erreur lors de la connexion a la BDD'));
 db.once('open', function (){
-    console.log("Connexion à la base OK");
+    console.log("Connexion à la base "+database+" OK");
 });
 
 let app = express();
