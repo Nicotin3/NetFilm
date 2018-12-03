@@ -41,45 +41,45 @@ let appRouter = function (app) {
             client.get("http://www.omdbapi.com/?i=tt00" + start.toString() + "&apikey=" + apiKey, function (data, response) {
                 try {
                     const result = JSON.parse(data);
+
+                    if (result.Response){
+                        filmsAdded.push(result.Title);
+                        let film = new FilmModel(
+                            {
+                                "Title": result.Title,
+                                "Year": result.Year,
+                                "Rated": result.Rated,
+                                "Released": result.Released,
+                                "Runtime": result.Runtime,
+                                "Genre": result.Genre,
+                                "Director": result.Director,
+                                "Writer": result.Writer,
+                                "Actors": result.Actors,
+                                "Plot": result.Plot,
+                                "Language": result.Language,
+                                "Country": result.Country,
+                                "Awards": result.Awards,
+                                "Poster": result.Poster,
+                                "Ratings": result.Ratings,
+                                "Metascore": result.Metascore,
+                                "imdbRating": result.imdbRating,
+                                "imdbVotes": result.imdbVotes,
+                                "imdbID": result.imdbID,
+                                "Type": result.Type,
+                                "DVD": result.DVD,
+                                "BoxOffice": result.BoxOffice,
+                                "Production": result.Production,
+                                "Website": result.Website
+                            }
+                        );
+                        film.save(function (err) {
+                            if (err) throw err;
+                            console.log('Film : ' + result.Title + ' ajouté');
+                        });
+                    }
                 }
                 catch(error) {
                     console.log(error);
-                }
-
-                if (result.Response){
-                    filmsAdded.push(result.Title);
-                    let film = new FilmModel(
-                        {
-                            "Title": result.Title,
-                            "Year": result.Year,
-                            "Rated": result.Rated,
-                            "Released": result.Released,
-                            "Runtime": result.Runtime,
-                            "Genre": result.Genre,
-                            "Director": result.Director,
-                            "Writer": result.Writer,
-                            "Actors": result.Actors,
-                            "Plot": result.Plot,
-                            "Language": result.Language,
-                            "Country": result.Country,
-                            "Awards": result.Awards,
-                            "Poster": result.Poster,
-                            "Ratings": result.Ratings,
-                            "Metascore": result.Metascore,
-                            "imdbRating": result.imdbRating,
-                            "imdbVotes": result.imdbVotes,
-                            "imdbID": result.imdbID,
-                            "Type": result.Type,
-                            "DVD": result.DVD,
-                            "BoxOffice": result.BoxOffice,
-                            "Production": result.Production,
-                            "Website": result.Website
-                        }
-                    );
-                    film.save(function (err) {
-                        if (err) throw err;
-                        console.log('Film : ' + result.Title + ' ajouté');
-                    });
                 }
             });
             start++;
