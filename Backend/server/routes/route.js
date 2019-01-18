@@ -17,9 +17,6 @@ let appRouter = function (app) {
     // Paramètre de la requête : ?page=2 pour afficher la page 2.
     // TODO : retourner les infos nécessaire au bon affichage de la page d'acceuil
     app.get("/", function (req, res) {
-        res.setHeader("Content-Type", "text/plain");
-        res.status(200).send("Bienvenue sur NetFilm\n");
-
         let perPage = 10;
         let page = Math.max(0, req.params.page);
 
