@@ -1,9 +1,9 @@
 let FilmModel = require('./modele');
 // Cet import a pour but de requeter l'API IMDB (pas nécessaire pour la suite)
 let Client = require('node-rest-client').Client;
-let options ={
-    mimetypes:{
-        json:["application/json","application/json; charset=utf-8"]
+let options = {
+    mimetypes: {
+        json: ["application/json", "application/json; charset=utf-8"]
     }
 };
 
@@ -13,36 +13,72 @@ let client = new Client(options);
 
 let appRouter = function (app) {
 
-    app.get("/", function(req, res) {
-        res.status(200).send("Welcome to our restful API");
-    });
+    // Home page. Envoie un tableau de 10 films stockés dans la BDD.
+    // Paramètre de la requête : ?page=2 pour afficher la page 2.
+    // TODO : retourner les infos nécessaire au bon affichage de la page d'acceuil
+    app.get("/", function (req, res) {
+        res.setHeader("Content-Type", "text/plain");
+        res.status(200).send("Bienvenue sur NetFilm\n");
 
-    app.get("/films", function (req, res) {
-        // Test d'ajout dans la BDD d'un film
-        let film = new FilmModel({"Title":"Blade Runner","Year":"1982","Rated":"R","Released":"25 Jun 1982","Runtime":"117 min","Genre":"Sci-Fi, Thriller","Director":"Ridley Scott","Writer":"Hampton Fancher (screenplay), David Webb Peoples (screenplay), Philip K. Dick (novel)","Actors":"Harrison Ford, Rutger Hauer, Sean Young, Edward James Olmos","Plot":"A blade runner must pursue and terminate four replicants who stole a ship in space, and have returned to Earth to find their creator.","Language":"English, German, Cantonese, Japanese, Hungarian, Arabic","Country":"USA, Hong Kong","Awards":"Nominated for 2 Oscars. Another 11 wins & 16 nominations.","Poster":"https://m.media-amazon.com/images/M/MV5BNzQzMzJhZTEtOWM4NS00MTdhLTg0YjgtMjM4MDRkZjUwZDBlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg","Ratings":[{"Source":"Internet Movie Database","Value":"8.2/10"},{"Source":"Rotten Tomatoes","Value":"90%"},{"Source":"Metacritic","Value":"89/100"}],"Metascore":"89","imdbRating":"8.2","imdbVotes":"605,776","imdbID":"tt0083658","Type":"movie","DVD":"27 Aug 1997","BoxOffice":"N/A","Production":"Warner Bros. Pictures","Website":"N/A"});
-        film.save(function (err) {
-            if (err) throw err;
-            console.log('Film ajouté');
-        });
-        /*FilmModel.findOne({},function (err,data) {
-            if (err) throw err;
+        let perPage = 10;
+        let page = Math.max(0, req.params.page);
+
+        FilmModel.find({}, {limit:perPage, skip:perPage * page}, function (err, data) {
+            if (err) throw err; // TODO Afficher un message d'erreur parlant à l'utilisateur
             res.setHeader('Content-Type', 'application/json');
             res.status(200).send(data);
-        });*/
-        res.setHeader("Content-Type", "application/json");
-        res.status(201).send(film);
+        });
+    });
+
+    // Récupère toutes les informations d'un film à partir de son id
+    // dans le paramètre id de l'URI. Ne devrait être appelé que par
+    // clic sur un résultat de recherche.
+    app.get("/film", function (req, res) {
+        if (req.params.title) {
+            FilmModel.find({"_id": req.params.id}, function (err, data) {
+                if (err) throw err; // TODO Afficher un message d'erreur parlant à l'utilisateur
+                res.setHeader('Content-Type', 'application/json');
+                res.status(200).send(data);
+            });
+        }
+        else {
+            res.setHeader("Content-Type", "text/plain");
+            res.status(404).send("Veuillez fournir l'id du film.");
+        }
+    });
+
+    // Requete la base de donnee sur le parametre passé "title".
+    // Example : /search?title=blade%20runner
+    // Retourne un tableau minimal d'éléments dont l'id.
+    // TODO ajouter d'autres éléments de recherche ?
+    app.get("/search", function (req, res) {
+        if (req.params.title) {
+            // TODO analyser le retour d'une recherche incomplète. Est-ce un tableau ?
+            // Si pas de doute, retourner un un tableau d'un elem avec id et l'appli
+            // requêtera les données complètes sur /film?id=...
+            FilmModel.find({"_id": req.params.title}, function (err, data) {
+                if (err) throw err; // TODO Afficher un message d'erreur parlant à l'utilisateur
+                res.setHeader('Content-Type', 'application/json');
+                res.status(200).send(data);
+            });
+        }
+        // TODO ajouter d'autres filtres de recherche ? necessitera surement une adaptation du modèle
+        else {
+            res.setHeader("Content-Type", "text/plain");
+            res.status(404).send("Veuillez fournir un titre de film.");
+        }
     });
 
     app.get("/init", function (req, res) {
         // Test d'ajout dans la BDD
         let filmsAdded = [];
         let start = 83663;
-        while(start <= 94673) {
+        while (start <= 94673) {
             client.get("http://www.omdbapi.com/?i=tt00" + start.toString() + "&apikey=" + apiKey, function (data, response) {
                 try {
                     const result = JSON.parse(data);
 
-                    if (result.Response){
+                    if (result.Response) {
                         filmsAdded.push(result.Title);
                         let film = new FilmModel(
                             {
@@ -78,7 +114,7 @@ let appRouter = function (app) {
                         });
                     }
                 }
-                catch(error) {
+                catch (error) {
                     console.log(error);
                 }
             });
@@ -88,7 +124,7 @@ let appRouter = function (app) {
         res.status(201).send("Insertion réalisée des films suivant : " + filmsAdded.toString());
     });
 
-    app.use(function(req, res){
+    app.use(function (req, res) {
         res.setHeader('Content-Type', 'text/plain');
         res.status(404).send('Page introuvable !');
     });
