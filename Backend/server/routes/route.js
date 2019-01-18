@@ -20,7 +20,7 @@ let appRouter = function (app) {
         let perPage = 10;
         let page = Math.max(0, req.params.page);
 
-        FilmModel.find({}, {limit:perPage, skip:perPage * page}, function (err, data) {
+        FilmModel.find({ Title: { $exists: true } }, {limit:perPage, skip:perPage * page}, function (err, data) {
             if (err) throw err; // TODO Afficher un message d'erreur parlant à l'utilisateur
             res.setHeader('Content-Type', 'application/json');
             res.status(200).send(data);
