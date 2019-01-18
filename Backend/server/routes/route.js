@@ -22,8 +22,11 @@ let appRouter = function (app) {
 
         FilmModel.find({ Title: { $exists: true } }, {limit:perPage, skip:perPage * page}, function (err, data) {
             if (err) throw err; // TODO Afficher un message d'erreur parlant à l'utilisateur
-            res.setHeader('Content-Type', 'application/json');
-            res.status(200).send(data);
+
+            FilmModel.count({ Title: { $exists: true } }, function (err, count) {
+                res.setHeader('Content-Type', 'application/json');
+                res.status(200).send({count: count, data: data});
+            });
         });
     });
 
