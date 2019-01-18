@@ -34,8 +34,8 @@ let appRouter = function (app) {
     // dans le paramètre id de l'URI. Ne devrait être appelé que par
     // clic sur un résultat de recherche.
     app.get("/film", function (req, res) {
-        if (req.params.title) {
-            FilmModel.find({"_id": req.params.id}, function (err, data) {
+        if (req.params.id) {
+            FilmModel.findById(req.params.id, function (err, data) {
                 if (err) throw err; // TODO Afficher un message d'erreur parlant à l'utilisateur
                 res.setHeader('Content-Type', 'application/json');
                 res.status(200).send(data);
@@ -54,6 +54,7 @@ let appRouter = function (app) {
     app.get("/search", function (req, res) {
         if (req.params.title) {
             // TODO analyser le retour d'une recherche incomplète. Est-ce un tableau ?
+            // TODO faire une recherche lowercase dans mongo ?
             // Si pas de doute, retourner un un tableau d'un elem avec id et l'appli
             // requêtera les données complètes sur /film?id=...
             FilmModel.find({"_id": req.params.title}, function (err, data) {
