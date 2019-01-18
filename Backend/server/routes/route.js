@@ -57,7 +57,7 @@ let appRouter = function (app) {
             // TODO faire une recherche lowercase dans mongo ?
             // Si pas de doute, retourner un un tableau d'un elem avec id et l'appli
             // requêtera les données complètes sur /film?id=...
-            FilmModel.find({"_id": req.query.title}, function (err, data) {
+            FilmModel.find({"Title": req.query.title}, function (err, data) {
                 if (err) throw err; // TODO Afficher un message d'erreur parlant à l'utilisateur
                 res.setHeader('Content-Type', 'application/json');
                 res.status(200).send(data);
