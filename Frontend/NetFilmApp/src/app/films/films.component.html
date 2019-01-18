@@ -1,0 +1,16 @@
+<h1> NetFilms </h1>
+
+<ul >
+  <li *ngFor="let film of films$ | paginate: { itemsPerPage: 5, currentPage: page, totalItems: totalRec }"
+  (click)="ngxSmartModalService.getModal('myModal').open()"
+                                                                                                          >
+    <a routerLink="/film/{{film.imdbID}}"> {{film.Title}}</a>
+    <ul>
+      <li> Sortie : {{film.Released}}</li>
+      <li> Avec {{film.Actors}} </li>
+    </ul>
+  </li>
+</ul>
+
+
+<pagination-controls (pageChange)="page = $event"></pagination-controls>
