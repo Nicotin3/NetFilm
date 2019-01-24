@@ -21,7 +21,7 @@ let appRouter = function (app) {
         let page = Math.max(0, req.query.page);
 
         FilmModel.find({ Title: { $exists: true } }, null, {limit:perPage, skip:perPage * page}, function (err, data) {
-            if (err) throw err; // TODO Afficher un message d'erreur parlant à l'utilisateur
+            if (err) res.status(404).send(err);
 
             FilmModel.count({ Title: { $exists: true } }, function (err, count) {
                 res.setHeader('Content-Type', 'application/json');
@@ -36,7 +36,7 @@ let appRouter = function (app) {
     app.get("/film", function (req, res) {
         if (req.query.id) {
             FilmModel.findById(req.query.id, function (err, data) {
-                if (err) throw err; // TODO Afficher un message d'erreur parlant à l'utilisateur
+                if (err) res.status(404).send(err);
                 res.setHeader('Content-Type', 'application/json');
                 res.status(200).send(data);
             });
@@ -57,8 +57,8 @@ let appRouter = function (app) {
             // TODO faire une recherche lowercase dans mongo ?
             // Si pas de doute, retourner un un tableau d'un elem avec id et l'appli
             // requêtera les données complètes sur /film?id=...
-            FilmModel.find({"Title": req.query.title}, function (err, data) {
-                if (err) throw err; // TODO Afficher un message d'erreur parlant à l'utilisateur
+            FilmModel.find({"Title": new RegExp('.*'+req.query.title+'.*', "i")}, function (err, data) {
+                if (err) res.status(404).send(err);
                 res.setHeader('Content-Type', 'application/json');
                 res.status(200).send(data);
             });
