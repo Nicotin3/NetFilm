@@ -58,7 +58,7 @@ let appRouter = function (app) {
                 res.status(200).send(data);
             });
         }
-        if (req.query.actor) {
+        else if (req.query.actor) {
             FilmModel.find({"Actors": new RegExp('.*'+req.query.actor+'.*', "i")}, function (err, data) {
                 if (err) res.status(404).send(err);
                 res.setHeader('Content-Type', 'application/json');
