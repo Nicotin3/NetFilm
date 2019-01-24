@@ -15,7 +15,6 @@ let appRouter = function (app) {
 
     // Home page. Envoie un tableau de 10 films stockés dans la BDD.
     // Paramètre de la requête : ?page=2 pour afficher la page 2.
-    // TODO : retourner les infos nécessaire au bon affichage de la page d'acceuil
     app.get("/", function (req, res) {
         let perPage = 10;
         let page = Math.max(0, req.query.page);
@@ -49,32 +48,34 @@ let appRouter = function (app) {
 
     // Requete la base de donnee sur le parametre passé "title".
     // Example : /search?title=blade%20runner
-    // Retourne un tableau minimal d'éléments dont l'id.
+    // Retourne un tableau des films correspondants à la recherche.
     // TODO ajouter d'autres éléments de recherche ?
     app.get("/search", function (req, res) {
         if (req.query.title) {
-            // TODO analyser le retour d'une recherche incomplète. Est-ce un tableau ?
-            // TODO faire une recherche lowercase dans mongo ?
-            // Si pas de doute, retourner un un tableau d'un elem avec id et l'appli
-            // requêtera les données complètes sur /film?id=...
             FilmModel.find({"Title": new RegExp('.*'+req.query.title+'.*', "i")}, function (err, data) {
                 if (err) res.status(404).send(err);
                 res.setHeader('Content-Type', 'application/json');
                 res.status(200).send(data);
             });
         }
-        // TODO ajouter d'autres filtres de recherche ? necessitera surement une adaptation du modèle
+        if (req.query.actor) {
+            FilmModel.find({"Actors": new RegExp('.*'+req.query.actor+'.*', "i")}, function (err, data) {
+                if (err) res.status(404).send(err);
+                res.setHeader('Content-Type', 'application/json');
+                res.status(200).send(data);
+            });
+        }
         else {
             res.setHeader("Content-Type", "text/plain");
-            res.status(404).send("Veuillez fournir un titre de film.");
+            res.status(404).send("Veuillez fournir des éléments de recherche de film.");
         }
     });
 
     app.get("/init", function (req, res) {
         // Test d'ajout dans la BDD
         let filmsAdded = [];
-        let start = 83663;
-        while (start <= 94673) {
+        let start = 94674; // Déjà ajouté : 83663 à 94673
+        while (start <= 99674) {
             client.get("http://www.omdbapi.com/?i=tt00" + start.toString() + "&apikey=" + apiKey, function (data, response) {
                 try {
                     const result = JSON.parse(data);
