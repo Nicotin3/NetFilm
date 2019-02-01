@@ -1,7 +1,7 @@
 {
   "name": "netfilmapp",
   "version": "1.0.0",
-  "description": "",
+  "description": "A little application providing backend to request a films database.",
   "main": "index.js",
   "dependencies": {
     "body-parser": "latest",
