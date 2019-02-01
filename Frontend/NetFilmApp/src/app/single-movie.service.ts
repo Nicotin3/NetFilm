@@ -17,15 +17,10 @@ export class SingleMovieService {
     return this.http.get('http://projetdlc.istic.univ-rennes1.fr:5000/film?id=' + id);
     // return films[1];
   }
-  addFilms(film): Observable<Object> {
+  addFilms(title: String, Released: String, genre: String, Writer: String, actor: String, Poster: String): Observable<Object> {
     // return this.http.get('http://localhost/?page='+ page apikey=c4867038&t=Le+&y=2018');
     // getFilms() : Observable<Response> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'my-auth-token'
-      })
-    };
-    return this.http.post<any>('http://projetdlc.istic.univ-rennes1.fr:5000/addfilm', film, httpOptions );
+    return this.http.get('http://projetdlc.istic.univ-rennes1.fr:5000/addfilm?title=' + title + '&released=' +
+    Released + '&genre=' + genre + '&writer=' + Writer + '&actors=' + actor + '&poster=' + Poster);
   }
 }

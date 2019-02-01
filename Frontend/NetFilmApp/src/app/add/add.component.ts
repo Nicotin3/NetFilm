@@ -59,11 +59,11 @@ export class AddComponent implements OnInit {
     console.log(newFilm);
     this
       .data
-      .addFilms(newFilm)
+      .addFilms(this.title.value, this.Released.value, this.genre.value, this.autor.value, this.actor.value, this.Poster.value )
       .subscribe((resp: Response) => {
         this.setEnter = false;
       });
-    this.data.addFilms(newFilm);
+    // this.data.addFilms(newFilm);
   }
 
 }

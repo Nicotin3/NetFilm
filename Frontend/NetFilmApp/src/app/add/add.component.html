@@ -3,10 +3,10 @@
 <ul *ngIf="setEnter">
   <li>
     <a id="control">
-      Title : <input type="text" placeholder="Saisir le titre" [formControl]="title" required >
+      Title : <input type="text" placeholder="Saisir le titre" [formControl]="title" size="50" >
     </a>
     <a id="control" required>
-      Genre:  <select [formControl]="genre" >
+      Genre:  <select [formControl]="genre">
       <option value="" disabled selected > Choisir </option>
       <option value="Action">Action</option>
       <option value="Aventure">Aventure</option>
@@ -17,93 +17,24 @@
       <option value="Horror">Horreur</option>
     </select>
     </a>
-    <a id="control">
-      Auteurs : <input type="text" placeholder="Saisir Auteur" [formControl]="autor" >
-    </a>
-    <a id="control">
-      Acteurs : <input type="text" placeholder="Saisir Acteur" [formControl]="actor" required>
-    </a>
   </li>
   <li>
     <a id="control">
-      Year : <input type="text" placeholder="Année de sortie" [formControl]="Year" required>
+      Auteurs : <input type="text" placeholder="Saisir Auteur" [formControl]="autor" size="40" >
     </a>
     <a id="control">
-      Rated : <input type="text" placeholder="Saisir la note" [formControl]="Rated">
+      Acteurs : <input type="text" placeholder="Saisir Acteur" [formControl]="actor" size="40">
     </a>
     <a id="control">
       Released : <input type="text" placeholder="Date de sortie" [formControl]="Released">
     </a>
+  </li>
+  <li>
     <a id="control">
-      Runtime : <input type="text" placeholder="Saisir la Duree" [formControl]="Runtime">
+      Lien image: <input type="text" placeholder="Lien sur l'image" [formControl]="Poster" size="40">
     </a>
   </li>
 
-  <li>
-    <a id="control">
-      Director : <input type="text" placeholder="Réalisateur" [formControl]="Director">
-    </a>
-    <a id="control">
-      Writer : <input type="text" placeholder="Auteur" [formControl]="Writer">
-    </a>
-    <a id="control">
-      Plot : <input type="text" placeholder="Synopsis" [formControl]="Plot">
-    </a>
-    <a id="control">
-      Language : <input type="text" placeholder="Saisir la langue" [formControl]="Language">
-    </a>
-  </li>
-
-  <li>
-    <a id="control">
-      Country : <input type="text" placeholder="Pays d'origine" [formControl]="Country">
-    </a>
-    <a id="control">
-      Awards : <input type="text" placeholder="Nominations" [formControl]="Awards">
-    </a>
-    <a id="control">
-      Poster : <input type="text" placeholder="Lien sur l'image" [formControl]="Poster">
-    </a>
-  </li>
-
-  <li>
-    <a id="control">
-      imdbRating : <input type="text" placeholder="Note IMDB" [formControl]="imdbRating">
-    </a>
-    <a id="control">
-      imdbVotes : <input type="text" placeholder="Nombre de votes" [formControl]="imdbVotes">
-    </a>
-    <a id="control">
-      imdbID : <input type="text" placeholder="ImdbID" [formControl]="imdbID">
-    </a>
-  </li>
-
-  <li>
-    <a id="control">
-      Type : <input type="text" placeholder="Film / Serie " [formControl]="Type">
-    </a>
-    <a id="control">
-      DVD : <input type="text" placeholder="Sortie DVD" [formControl]="DVD">
-    </a>
-    <a id="control">
-      BoxOffice : <input type="text" placeholder="Box Office" [formControl]="BoxOffice">
-    </a>
-    <a id="control">
-      Nb seasons : <input type="text" placeholder="" [formControl]="totalSeasons">
-    </a>
-  </li>
-
-  <li>
-    <a id="control">
-      Metascore : <input type="text" placeholder="Note " [formControl]="Metascore">
-    </a>
-    <a id="control">
-      Production : <input type="text" placeholder="Société" [formControl]="Production">
-    </a>
-    <a id="control">
-      Website : <input type="text" placeholder="Site du film" [formControl]="Website">
-    </a>
-  </li>
   <li>
     <a>
       <button type="submit" (click)="addFilms()" > Ajouter le film </button>
