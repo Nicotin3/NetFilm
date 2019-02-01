@@ -71,6 +71,8 @@ let appRouter = function (app) {
         let perPage = 10;
         let page = Math.max(0, req.query.page);
 
+        console.log("[GET} /search?title=" + title + "&genre=" + genre + "&autor=" + autor + "&actor=" + actor + "&page=" + page);
+
         FilmModel.find({ "Title": title, "Genre": genre, "Director": autor, "Actors": actor},
             null, {limit:perPage, skip:perPage * page}, function (err, data) {
             if (err) res.status(404).send(err);
@@ -80,28 +82,6 @@ let appRouter = function (app) {
                 res.status(200).send({count: count, data: data});
             });
         });
-
-        // if (req.query.title) {
-        //     console.log("[GET] /search?title=" + req.query.title);
-        //     FilmModel.find({"Title": new RegExp('.*'+req.query.title+'.*', "i")}, function (err, data) {
-        //         if (err) res.status(404).send(err);
-        //         res.setHeader('Content-Type', 'application/json');
-        //         res.status(200).send(data);
-        //     });
-        // }
-        // else if (req.query.actor) {
-        //     console.log("[GET] /search?actor=" + req.query.title);
-        //     FilmModel.find({"Actors": new RegExp('.*'+req.query.actor+'.*', "i")}, function (err, data) {
-        //         if (err) res.status(404).send(err);
-        //         res.setHeader('Content-Type', 'application/json');
-        //         res.status(200).send(data);
-        //     });
-        // }
-        // else {
-        //     console.log("[GET] /search SANS PARAMETRES");
-        //     res.setHeader("Content-Type", "text/plain");
-        //     res.status(404).send("Veuillez fournir des éléments de recherche de film.");
-        // }
     });
 
     app.get("/init", function (req, res) {
@@ -157,6 +137,15 @@ let appRouter = function (app) {
         }
         res.setHeader("Content-Type", "application/json");
         res.status(201).send("Insertion réalisée des films suivant : " + filmsAdded.toString());
+    });
+
+    app.post("/addfilm", function (req, res) {
+        let film = new FilmModel(req.body);
+        console.log("tentative d'ajout du film :\n" + req.body);
+        // film.save(function (err) {
+        //     if (err) res.status(422).send("Erreur lors de l'ajout");
+        //     res.status(201).send("Ajout OK");
+        // });
     });
 
     app.use(function (req, res) {
