@@ -19,6 +19,8 @@ let appRouter = function (app) {
         let perPage = 10;
         let page = Math.max(0, req.query.page);
 
+        console.log("[GET] /?page=" + page);
+
         FilmModel.find({ Title: { $exists: true } }, null, {limit:perPage, skip:perPage * page}, function (err, data) {
             if (err) res.status(404).send(err);
 
@@ -33,8 +35,9 @@ let appRouter = function (app) {
     // dans le paramètre id de l'URI. Ne devrait être appelé que par
     // clic sur un résultat de recherche.
     app.get("/film", function (req, res) {
+        console.log("[GET] /film?id=" + req.query.id);
         if (req.query.id) {
-            FilmModel.findById(req.query.id, function (err, data) {
+            FilmModel.find({"imdbID": req.query.id}, function (err, data) {
                 if (err) res.status(404).send(err);
                 res.setHeader('Content-Type', 'application/json');
                 res.status(200).send(data);
@@ -52,6 +55,7 @@ let appRouter = function (app) {
     // TODO ajouter d'autres éléments de recherche ?
     app.get("/search", function (req, res) {
         if (req.query.title) {
+            console.log("[GET] /search?title=" + req.query.title);
             FilmModel.find({"Title": new RegExp('.*'+req.query.title+'.*', "i")}, function (err, data) {
                 if (err) res.status(404).send(err);
                 res.setHeader('Content-Type', 'application/json');
@@ -59,6 +63,7 @@ let appRouter = function (app) {
             });
         }
         else if (req.query.actor) {
+            console.log("[GET] /search?actor=" + req.query.title);
             FilmModel.find({"Actors": new RegExp('.*'+req.query.actor+'.*', "i")}, function (err, data) {
                 if (err) res.status(404).send(err);
                 res.setHeader('Content-Type', 'application/json');
@@ -66,6 +71,7 @@ let appRouter = function (app) {
             });
         }
         else {
+            console.log("[GET] /search SANS PARAMETRES");
             res.setHeader("Content-Type", "text/plain");
             res.status(404).send("Veuillez fournir des éléments de recherche de film.");
         }
@@ -127,6 +133,7 @@ let appRouter = function (app) {
     });
 
     app.use(function (req, res) {
+        console.log("[" + req.protocol + "]" + ' ://' + req.url);
         res.setHeader('Content-Type', 'text/plain');
         res.status(404).send('Page introuvable !');
     });
