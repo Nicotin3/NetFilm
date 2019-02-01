@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {HttpClient } from '@angular/common/http';
-import { films } from './mock-films';
 import {Observable} from 'rxjs/index';
 import {FormControl} from '@angular/forms';
 
