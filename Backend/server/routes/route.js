@@ -60,15 +60,15 @@ let appRouter = function (app) {
         let autor = {$exists: true};
         let actor = {$exists: true};
 
-        let regex = /\s/gi;
+        // let regex = /\s/gi;
 
-        if (req.query.title) title = new RegExp('.*'+req.query.title.replace(regex, '.')+'.*', "i");
+        if (req.query.title) title = new RegExp('.*'+req.query.title+'.*', "i");
 
-        if (req.query.genre) genre = new RegExp('.*'+req.query.genre.replace(regex, '.')+'.*', "i");
+        if (req.query.genre) genre = new RegExp('.*'+req.query.genre+'.*', "i");
 
-        if (req.query.autor) autor = new RegExp('.*'+req.query.autor.replace(regex, '.')+'.*', "i");
+        if (req.query.autor) autor = new RegExp('.*'+req.query.autor+'.*', "i");
 
-        if (req.query.actor) actor = new RegExp('.*'+req.query.actor.replace(regex, '.')+'.*', "i");
+        if (req.query.actor) actor = new RegExp('.*'+req.query.actor+'.*', "i");
 
         let perPage = 10;
         let page = Math.max(0, req.query.page);
