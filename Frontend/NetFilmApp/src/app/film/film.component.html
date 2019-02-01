@@ -1,0 +1,35 @@
+<h1 *ngIf="film"> {{film.Title}} </h1>
+<ul>
+  <li>
+    <ul *ngIf="film">
+      <li>
+        <a> Année de sortie: {{film.Year}}</a>
+        <a> Classement: {{film.Rated}}</a>
+        <a> Date de sortie: {{film.Released}}</a>
+        <a> Durée: {{film.Runtime}}</a>
+      </li>
+      <li>
+        <a> Genre: {{film.Genre}}</a>
+        <a> Réalisateur: {{film.Director}}</a>
+        <a> Auteur: {{film.Writer}}</a>
+        <a> Acteur: {{film.Actors}}</a>
+      </li>
+      <li>
+        <a> Synopsis: {{film.Plot}}</a>
+        <a> Langue: {{film.Language}}</a>
+        <a> Pays: {{film.Country}}</a>
+        <a> Nominations: {{film.Awards}}</a>
+      </li>
+      <li>
+        <a *ngIf="film.Ratings.Source" > Source de notes:{{film.Ratings.Source}}</a>
+        <a *ngIf="film.Ratings.Value"> Note:{{film.Ratings.Value}}</a>
+        <a> Metascore: {{film.Metascore}}</a>
+        <a> Note IMDB: {{film.imdbRating}}</a>
+        <a> Nb de votes: {{film.imdbVotes}}</a>
+      </li>
+      <li>
+            <img src="{{film.Poster}}">
+      </li>
+    </ul>
+  </li>
+</ul>

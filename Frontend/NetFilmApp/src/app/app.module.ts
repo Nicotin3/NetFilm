@@ -10,9 +10,13 @@ import { HttpClientModule} from '@angular/common/http';
 import {DataService} from './data.service';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { FilmsComponent } from './films/films.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { IgxNavbarModule, IgxIconModule} from 'igniteui-angular';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { SearchComponent } from './search/search.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import { FilmComponent } from './film/film.component';
+import { AddComponent } from './add/add.component';
+import {SingleMovieService} from './single-movie.service';
 
 
 @NgModule({
@@ -20,7 +24,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     AppComponent,
     SidebarComponent,
     FilmsComponent,
-    NavBarComponent
+    SearchComponent,
+    FilmComponent,
+    AddComponent
   ],
   imports: [
     BrowserModule, NgxPaginationModule,
@@ -29,9 +35,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
     BrowserAnimationsModule,
     NoopAnimationsModule,
     IgxNavbarModule,
-    IgxIconModule
+    IgxIconModule,
+    ReactiveFormsModule
   ],
-  providers: [DataService],
+  providers: [DataService, SingleMovieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

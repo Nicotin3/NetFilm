@@ -9,8 +9,8 @@ import {Film} from '../film';
   styleUrls: ['./films.component.scss']
 })
 export class FilmsComponent implements OnInit {
-  page: Number = 1;
-  films$: Film[] ;
+  page: Number = 0;
+  films$: any[] ;
   totalRec: Number = 10;
   constructor( private  data: DataService) { }
 
@@ -23,18 +23,19 @@ export class FilmsComponent implements OnInit {
   }
 
   getFilms(): void {
-    this.films$ = this.data.getFilms(1);
-
-   /* this
-      .serv
-      .getFilms()
-      .subscribe((resp: Response) => {
-        this.films$ = resp.json();
-        this.totalRec = this.films$.length;
+   this
+      .data
+      .getFilms(this.page)
+      .subscribe((resp: Object) => {
+        this.films$ = resp.data;
+        this.totalRec = resp.count;
         console.log(this.totalRec);
         console.log(this.page);
       });
-    */
+  }
+  testFilms(): void {
+    // res = this.data.getFilms(1)
+    // this.films$ = this.data.getFilms(1);
   }
 
 }

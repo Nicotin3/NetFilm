@@ -27,7 +27,7 @@ export class Film {
   Type: string;
   DVD: string;
   BoxOffice: string;
-  totalSeasons: string;
+  //totalSeasons: string;
   Production: string;
   Website: string;
   Response: string;
