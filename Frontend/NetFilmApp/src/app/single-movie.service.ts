@@ -8,12 +8,7 @@ import {catchError} from 'rxjs/internal/operators';
   providedIn: 'root'
 })
 export class SingleMovieService {
-  const httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'my-auth-token'
-    })
-  };
+
   constructor(private http: HttpClient) { }
 
 
@@ -22,9 +17,15 @@ export class SingleMovieService {
     return this.http.get('http://localhost:5000/film?id=' + id);
     // return films[1];
   }
-  addFilms(film): Observable<> {
+  addFilms(film): Observable<Object> {
     // return this.http.get('http://localhost/?page='+ page apikey=c4867038&t=Le+&y=2018');
     // getFilms() : Observable<Response> {
-    return this.http.post<Object>('http://localhost:5000/addfilm', film, this.httpOptions );
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'my-auth-token'
+      })
+    };
+    return this.http.post<Object>('http://localhost:5000/addfilm', film, httpOptions );
   }
 }

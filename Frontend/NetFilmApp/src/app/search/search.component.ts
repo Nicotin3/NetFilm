@@ -33,7 +33,7 @@ export class SearchComponent implements OnInit {
     this
       .data
       .searchFilms(this.page, ttl, ge, aut, act)
-      .subscribe((resp: Object) => {
+      .subscribe((resp: any) => {
         this.films$ = resp.data;
         this.totalRec = resp.count;
         console.log(this.totalRec);

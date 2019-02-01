@@ -9,9 +9,9 @@ import {Film} from '../film';
   styleUrls: ['./films.component.scss']
 })
 export class FilmsComponent implements OnInit {
-  page: Number = 0;
+  page = 0;
   films$: any[] ;
-  totalRec: Number = 10;
+  totalRec = 10;
   constructor( private  data: DataService) { }
 
   ngOnInit() {
@@ -23,10 +23,10 @@ export class FilmsComponent implements OnInit {
   }
 
   getFilms(): void {
-   this
+    this
       .data
       .getFilms(this.page)
-      .subscribe((resp: Object) => {
+      .subscribe((resp: any) => {
         this.films$ = resp.data;
         this.totalRec = resp.count;
         console.log(this.totalRec);

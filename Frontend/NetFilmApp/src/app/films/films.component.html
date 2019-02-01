@@ -2,7 +2,7 @@
 
 <ul >
   <li *ngFor="let film of films$ | paginate: { itemsPerPage: 10, currentPage: page, totalItems: totalRec }" >
-    <a routerLink="/film/{{film.imdbID}}"> {{film.Title}}</a>
+    <a routerLink="/film/{{film._id}}"> {{film.Title}}</a>
     <ul>
       <li> Genre : {{film.genre}} Sortie : {{film.Released}}</li>
       <li> Sortie : {{film.Writer}}</li>
