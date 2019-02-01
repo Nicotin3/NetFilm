@@ -26,10 +26,10 @@ export class SearchComponent implements OnInit {
 
   searchFilms(): void {
    // this.films$ = this.data.searchFilms(this.page, this.title.value, this.genre.value, this.autor.value, this.actor.value);
-    const ttl: String = ' ' + this.title.value;
-    const ge: String = ' ' + this.genre.value;
-    const aut: String = ' ' + this.autor.value;
-    const act: String = ' ' + this.actor.value;
+    const ttl: String = '' + this.title.value;
+    const ge: String = '' + this.genre.value;
+    const aut: String = '' + this.autor.value;
+    const act: String = '' + this.actor.value;
     this
       .data
       .searchFilms(this.page, ttl, ge, aut, act)
