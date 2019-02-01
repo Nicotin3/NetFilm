@@ -1,16 +1,16 @@
 <h1> NetFilms </h1>
 
 <ul >
-  <li *ngFor="let film of films$ | paginate: { itemsPerPage: 5, currentPage: page, totalItems: totalRec }"
-  (click)="ngxSmartModalService.getModal('myModal').open()"
-                                                                                                          >
+  <li *ngFor="let film of films$ | paginate: { itemsPerPage: 10, currentPage: page, totalItems: totalRec }" >
     <a routerLink="/film/{{film.imdbID}}"> {{film.Title}}</a>
     <ul>
-      <li> Sortie : {{film.Released}}</li>
+      <li> Genre : {{film.genre}} Sortie : {{film.Released}}</li>
+      <li> Sortie : {{film.Writer}}</li>
       <li> Avec {{film.Actors}} </li>
     </ul>
+    <img src="{{film.Poster}}" height="100px" width="75px">
   </li>
 </ul>
 
 
-<pagination-controls (pageChange)="page = $event"></pagination-controls>
+<pagination-controls (pageChange)="page = $event" (click)="getFilms()"></pagination-controls>

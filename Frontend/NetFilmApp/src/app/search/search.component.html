@@ -1,0 +1,51 @@
+<h1> Search Page </h1>
+
+<ul >
+  <li>
+    <a id="control">
+      Title : <input type="text" placeholder="Saisir le titre" [formControl]="title">
+    </a>
+    <a id="control">
+      Genre:  <select [formControl]="genre" >
+                <option value="" disabled selected > Choisir </option>
+                <option value="Action">Action</option>
+                <option value="Aventure">Aventure</option>
+                <option value="Drama">Drame</option>
+                <option value="Comedy">Comédie</option>
+                <option value="Thriller">Thriller</option>
+                <option value="Fantastic">Fantastique</option>
+                <option value="Horror">Horreur</option>
+              </select>
+    </a>
+    <a id="control">
+      Auteur : <input type="text" placeholder="Saisir Auteur" [formControl]="autor">
+    </a>
+    <a id="control">
+      Acteur : <input type="text" placeholder="Saisir Acteur" [formControl]="actor">
+    </a>
+  </li>
+  <li>
+    <a>
+      <button (click)="searchFilms()" > Chercher </button>
+    </a>
+  </li>
+</ul>
+
+
+<ul *ngIf="films$" >
+  <li *ngFor="let film of films$ | paginate: { itemsPerPage: 5, currentPage: page, totalItems: totalRec }">
+    <a routerLink="/film/{{film.imdbID}}"> {{film.Title}}</a>
+    <ul>
+      <li> Genre : {{film.Genre}} Sortie : {{film.Released}}</li>
+      <li> Sortie : {{film.Writer}}</li>
+      <li> Avec {{film.Actors}} </li>
+    </ul>
+    <img src="{{film.Poster}}" height="100px" width="75px">
+  </li>
+</ul>
+
+
+<pagination-controls (pageChange)="page = $event" *ngIf="film$"></pagination-controls>
+
+
+
