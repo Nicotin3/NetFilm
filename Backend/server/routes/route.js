@@ -22,12 +22,13 @@ let appRouter = function (app) {
         console.log("[GET] /?page=" + page);
 
         FilmModel.find({ Title: { $exists: true } }, null, {limit:perPage, skip:perPage * page}, function (err, data) {
-            if (err) res.status(404).send(err);
-
-            FilmModel.count({ Title: { $exists: true } }, function (err, count) {
-                res.setHeader('Content-Type', 'application/json');
-                res.status(200).send({count: count, data: data});
-            });
+            if (err){res.status(404).send(err);}
+            else {
+                FilmModel.count({ Title: { $exists: true } }, function (err, count) {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.status(200).send({count: count, data: data});
+                });
+            }
         });
     });
 
@@ -59,29 +60,35 @@ let appRouter = function (app) {
         let autor = {$exists: true};
         let actor = {$exists: true};
 
-        let regex = /\s/gi;
+        // let regex = /\s/gi;
 
-        if (req.query.title) title = new RegExp('.*'+req.query.title.replace(regex, '.')+'.*', "i");
+        if (req.query.title) title = new RegExp('.*'+req.query.title+'.*', "i");
 
-        if (req.query.genre) genre = new RegExp('.*'+req.query.genre.replace(regex, '.')+'.*', "i");
+        if (req.query.genre) genre = new RegExp('.*'+req.query.genre+'.*', "i");
 
-        if (req.query.autor) autor = new RegExp('.*'+req.query.autor.replace(regex, '.')+'.*', "i");
+        if (req.query.autor) autor = new RegExp('.*'+req.query.autor+'.*', "i");
 
-        if (req.query.actor) actor = new RegExp('.*'+req.query.actor.replace(regex, '.')+'.*', "i");
+        if (req.query.actor) actor = new RegExp('.*'+req.query.actor+'.*', "i");
 
         let perPage = 10;
         let page = Math.max(0, req.query.page);
 
-        console.log("[GET} /search?title=" + title + "&genre=" + genre + "&autor=" + autor + "&actor=" + actor + "&page=" + page);
+        console.log("[GET] /search?title=" + title + "&genre=" + genre + "&autor=" + autor + "&actor=" + actor + "&page=" + page);
 
         FilmModel.find({ "Title": title, "Genre": genre, "Director": autor, "Actors": actor},
             null, {limit:perPage, skip:perPage * page}, function (err, data) {
-            if (err) res.status(404).send(err);
-
-            FilmModel.count({ "Title": title, "Genre": genre, "Director": autor, "Actors": actor}, function (err, count) {
-                res.setHeader('Content-Type', 'application/json');
-                res.status(200).send({count: count, data: data});
-            });
+            if (err) {res.status(404).send(err);}
+            else {
+                FilmModel.count({
+                    "Title": title,
+                    "Genre": genre,
+                    "Director": autor,
+                    "Actors": actor
+                }, function (err, count) {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.status(200).send({count: count, data: data});
+                });
+            }
         });
     });
 
@@ -142,11 +149,11 @@ let appRouter = function (app) {
 
     app.post("/addfilm", function (req, res) {
         let film = new FilmModel(req.body);
-        console.log("tentative d'ajout du film :\n" + req.body);
-        // film.save(function (err) {
-        //     if (err) res.status(422).send("Erreur lors de l'ajout");
-        //     res.status(201).send("Ajout OK");
-        // });
+        console.log("[POST] /addfilm req.body : " + req.body);
+         film.save(function (err) {
+             if (err) res.status(422).send("Erreur lors de l'ajout");
+             res.status(201).send(req.body);
+         });
     });
 
     app.use(function (req, res) {
