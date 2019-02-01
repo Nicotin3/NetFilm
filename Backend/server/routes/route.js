@@ -147,10 +147,39 @@ let appRouter = function (app) {
         res.status(201).send("Insertion réalisée des films suivant : " + filmsAdded.toString());
     });
 
-    app.post("/addfilm", function (req, res) {
-        let film = new FilmModel(req.body);
-        console.log("[POST] /addfilm req.body : " + req.body);
-         film.save(function (err) {
+    app.get("/addfilm", function (req, res) {
+        console.log("[GET] /addfilm " + req.query);
+
+        let film = new FilmModel(
+            {
+                "Title": req.query.title,
+                "Year": "",
+                "Rated": "",
+                "Released": req.query.released,
+                "Runtime": "",
+                "Genre": req.query.genre,
+                "Director": "",
+                "Writer": req.query.writer,
+                "Actors": req.query.actors,
+                "Plot": "",
+                "Language": "",
+                "Country": "",
+                "Awards": "",
+                "Poster": req.query.poster,
+                "Ratings": "",
+                "Metascore": "",
+                "imdbRating": "",
+                "imdbVotes": "",
+                "imdbID": "",
+                "Type": "",
+                "DVD": "",
+                "BoxOffice": "",
+                "Production": "",
+                "Website": ""
+            }
+        );
+
+        film.save(function (err) {
              if (err) res.status(422).send("Erreur lors de l'ajout");
              res.status(201).send(req.body);
          });
