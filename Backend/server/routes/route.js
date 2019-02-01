@@ -55,10 +55,10 @@ let appRouter = function (app) {
     // TODO ajouter d'autres éléments de recherche ?
     app.get("/search", function (req, res) {
         // La recherche sera sur : title, genre, autor, actor, page
-        let title = "{$exists: true}";
-        let genre = "{$exists: true}";
-        let autor = "{$exists: true}";
-        let actor = "{$exists: true}";
+        let title = {$exists: true};
+        let genre = {$exists: true};
+        let autor = {$exists: true};
+        let actor = {$exists: true};
 
         if (req.query.title) title = new RegExp('.*'+req.query.title+'.*', "i");
 
@@ -80,6 +80,28 @@ let appRouter = function (app) {
                 res.status(200).send({count: count, data: data});
             });
         });
+
+        // if (req.query.title) {
+        //     console.log("[GET] /search?title=" + req.query.title);
+        //     FilmModel.find({"Title": new RegExp('.*'+req.query.title+'.*', "i")}, function (err, data) {
+        //         if (err) res.status(404).send(err);
+        //         res.setHeader('Content-Type', 'application/json');
+        //         res.status(200).send(data);
+        //     });
+        // }
+        // else if (req.query.actor) {
+        //     console.log("[GET] /search?actor=" + req.query.title);
+        //     FilmModel.find({"Actors": new RegExp('.*'+req.query.actor+'.*', "i")}, function (err, data) {
+        //         if (err) res.status(404).send(err);
+        //         res.setHeader('Content-Type', 'application/json');
+        //         res.status(200).send(data);
+        //     });
+        // }
+        // else {
+        //     console.log("[GET] /search SANS PARAMETRES");
+        //     res.setHeader("Content-Type", "text/plain");
+        //     res.status(404).send("Veuillez fournir des éléments de recherche de film.");
+        // }
     });
 
     app.get("/init", function (req, res) {
