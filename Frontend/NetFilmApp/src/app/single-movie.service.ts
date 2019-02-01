@@ -14,7 +14,7 @@ export class SingleMovieService {
 
   getFilm(id: String): Observable<any> {
     // getFilms() : Observable<Response> {
-    return this.http.get('http://localhost:5000/film?id=' + id);
+    return this.http.get('http://projetdlc.istic.univ-rennes1.fr:5000/film?id=' + id);
     // return films[1];
   }
   addFilms(film): Observable<Object> {
@@ -26,6 +26,6 @@ export class SingleMovieService {
         'Authorization': 'my-auth-token'
       })
     };
-    return this.http.post<Object>('http://localhost:5000/addfilm', film, httpOptions );
+    return this.http.post<Object>('http://projetdlc.istic.univ-rennes1.fr:5000/addfilm', film, httpOptions );
   }
 }

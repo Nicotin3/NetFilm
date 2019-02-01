@@ -9,11 +9,11 @@ export class DataService {
   constructor(private http: HttpClient) { }
 
   getFilms(page: Number): Observable<Object> {
-    return this.http.get('http://localhost:5000/?page=' + page );
+    return this.http.get('http://projetdlc.istic.univ-rennes1.fr:5000/?page=' + page );
   }
 
   searchFilms(page: Number, title: String, genre: String, autor: String, actor: String): Observable<Object> {
-    return this.http.get('http://localhost:5000/search?page=' + page + '&title=' + title + '&genre=' + genre +
+    return this.http.get('http://projetdlc.istic.univ-rennes1.fr:5000/search?page=' + page + '&title=' + title + '&genre=' + genre +
       '&autor=' + autor + '&actor=' + actor );
   }
 
