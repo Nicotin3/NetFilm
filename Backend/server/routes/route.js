@@ -37,7 +37,7 @@ let appRouter = function (app) {
     app.get("/film", function (req, res) {
         console.log("[GET] /film?id=" + req.query.id);
         if (req.query.id) {
-            FilmModel.find({"imdbID": req.query.id}, function (err, data) {
+            FilmModel.findById(req.query.id, function (err, data) {
                 if (err) res.status(404).send(err);
                 res.setHeader('Content-Type', 'application/json');
                 res.status(200).send(data);
@@ -49,10 +49,9 @@ let appRouter = function (app) {
         }
     });
 
-    // Requete la base de donnee sur le parametre passé "title".
+    // Requete la base de donnee sur les parametre passés.
     // Example : /search?title=blade%20runner
     // Retourne un tableau des films correspondants à la recherche.
-    // TODO ajouter d'autres éléments de recherche ?
     app.get("/search", function (req, res) {
         // La recherche sera sur : title, genre, autor, actor, page
         let title = {$exists: true};
@@ -60,13 +59,15 @@ let appRouter = function (app) {
         let autor = {$exists: true};
         let actor = {$exists: true};
 
-        if (req.query.title) title = new RegExp('.*'+req.query.title+'.*', "i");
+        let regex = /\s/gi;
 
-        if (req.query.genre) genre = new RegExp('.*'+req.query.genre+'.*', "i");
+        if (req.query.title) title = new RegExp('.*'+req.query.title.replace(regex, '.')+'.*', "i");
 
-        if (req.query.autor) autor = new RegExp('.*'+req.query.autor+'.*', "i");
+        if (req.query.genre) genre = new RegExp('.*'+req.query.genre.replace(regex, '.')+'.*', "i");
 
-        if (req.query.actor) actor = new RegExp('.*'+req.query.actor+'.*', "i");
+        if (req.query.autor) autor = new RegExp('.*'+req.query.autor.replace(regex, '.')+'.*', "i");
+
+        if (req.query.actor) actor = new RegExp('.*'+req.query.actor.replace(regex, '.')+'.*', "i");
 
         let perPage = 10;
         let page = Math.max(0, req.query.page);
