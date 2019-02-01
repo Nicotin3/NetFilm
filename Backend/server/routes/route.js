@@ -181,7 +181,7 @@ let appRouter = function (app) {
 
         film.save(function (err) {
              if (err) res.status(422).send("Erreur lors de l'ajout");
-             res.status(201).send(req.body);
+             res.status(201).send("Ajout OK");
          });
     });
 
