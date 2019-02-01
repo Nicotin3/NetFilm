@@ -23,7 +23,7 @@ export class FilmComponent implements OnInit {
       .data
       .getFilm(id)
       .subscribe((resp: Response) => {
-        this.film = resp[0];
+        this.film = resp;
       });
   }
 }

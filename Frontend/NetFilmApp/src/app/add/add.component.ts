@@ -43,7 +43,7 @@ export class AddComponent implements OnInit {
   Response = new FormControl('');
   Metascore = new FormControl('');
 
-
+  setEnter: boolean = true;
   constructor(private  data: SingleMovieService) { }
 
   ngOnInit() {
@@ -57,6 +57,12 @@ export class AddComponent implements OnInit {
       'BoxOffice': this.BoxOffice.value, 'Production': this.Production.value, 'Website': this.Website.value,
       'Response': this.Response.value};
     console.log(newFilm);
+    this
+      .data
+      .addFilms(newFilm)
+      .subscribe((resp: Response) => {
+        this.setEnter = false;
+      });
     this.data.addFilms(newFilm);
   }
 

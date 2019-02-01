@@ -1,6 +1,6 @@
 <h1> Add Page </h1>
 
-<ul >
+<ul *ngIf="setEnter">
   <li>
     <a id="control">
       Title : <input type="text" placeholder="Saisir le titre" [formControl]="title" required >
@@ -107,6 +107,14 @@
   <li>
     <a>
       <button type="submit" (click)="addFilms()" > Ajouter le film </button>
+    </a>
+  </li>
+</ul>
+<ul *ngIf="setEnter==false">
+  <li>
+    <a href="">
+      <H1> Bravo votre Film a bien été ajouté ! </H1>
+        <h3> {{title}} </h3>
     </a>
   </li>
 </ul>

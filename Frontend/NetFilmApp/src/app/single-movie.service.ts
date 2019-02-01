@@ -26,6 +26,6 @@ export class SingleMovieService {
         'Authorization': 'my-auth-token'
       })
     };
-    return this.http.post<Object>('http://projetdlc.istic.univ-rennes1.fr:5000/addfilm', film, httpOptions );
+    return this.http.post<any>('http://projetdlc.istic.univ-rennes1.fr:5000/addfilm', film, httpOptions );
   }
 }
