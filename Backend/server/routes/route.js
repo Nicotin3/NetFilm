@@ -149,11 +149,11 @@ let appRouter = function (app) {
 
     app.post("/addfilm", function (req, res) {
         let film = new FilmModel(req.body);
-        console.log("tentative d'ajout du film :\n" + req.body);
-        // film.save(function (err) {
-        //     if (err) res.status(422).send("Erreur lors de l'ajout");
-        //     res.status(201).send("Ajout OK");
-        // });
+        console.log("[POST] /addfilm req.body : " + req.body);
+         film.save(function (err) {
+             if (err) res.status(422).send("Erreur lors de l'ajout");
+             res.status(201).send(req.body);
+         });
     });
 
     app.use(function (req, res) {
