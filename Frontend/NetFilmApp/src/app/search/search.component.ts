@@ -15,9 +15,9 @@ export class SearchComponent implements OnInit {
   autor = new FormControl('');
   actor = new FormControl('');
 
-  page: Number = 0;
+  page: number = 0;
   films$: any[] ;
-  totalRec: Number = 10;
+  totalRec: number = 10;
 
   constructor(private  data: DataService) { }
 
