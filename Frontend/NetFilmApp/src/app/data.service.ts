@@ -8,11 +8,11 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
-  getFilms(page: Number): Observable<Object> {
+  getFilms(page: number): Observable<Object> {
     return this.http.get('http://projetdlc.istic.univ-rennes1.fr:5000/?page=' + page );
   }
 
-  searchFilms(page: Number, title: String, genre: String, autor: String, actor: String): Observable<Object> {
+  searchFilms(page: number, title: String, genre: String, autor: String, actor: String): Observable<any> {
     return this.http.get('http://projetdlc.istic.univ-rennes1.fr:5000/search?page=' + page + '&title=' + title + '&genre=' + genre +
       '&autor=' + autor + '&actor=' + actor );
   }
