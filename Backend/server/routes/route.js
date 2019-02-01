@@ -22,12 +22,13 @@ let appRouter = function (app) {
         console.log("[GET] /?page=" + page);
 
         FilmModel.find({ Title: { $exists: true } }, null, {limit:perPage, skip:perPage * page}, function (err, data) {
-            if (err) res.status(404).send(err);
-
-            FilmModel.count({ Title: { $exists: true } }, function (err, count) {
-                res.setHeader('Content-Type', 'application/json');
-                res.status(200).send({count: count, data: data});
-            });
+            if (err){res.status(404).send(err);}
+            else {
+                FilmModel.count({ Title: { $exists: true } }, function (err, count) {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.status(200).send({count: count, data: data});
+                });
+            }
         });
     });
 
@@ -72,16 +73,22 @@ let appRouter = function (app) {
         let perPage = 10;
         let page = Math.max(0, req.query.page);
 
-        console.log("[GET} /search?title=" + title + "&genre=" + genre + "&autor=" + autor + "&actor=" + actor + "&page=" + page);
+        console.log("[GET] /search?title=" + title + "&genre=" + genre + "&autor=" + autor + "&actor=" + actor + "&page=" + page);
 
         FilmModel.find({ "Title": title, "Genre": genre, "Director": autor, "Actors": actor},
             null, {limit:perPage, skip:perPage * page}, function (err, data) {
-            if (err) res.status(404).send(err);
-
-            FilmModel.count({ "Title": title, "Genre": genre, "Director": autor, "Actors": actor}, function (err, count) {
-                res.setHeader('Content-Type', 'application/json');
-                res.status(200).send({count: count, data: data});
-            });
+            if (err) {res.status(404).send(err);}
+            else {
+                FilmModel.count({
+                    "Title": title,
+                    "Genre": genre,
+                    "Director": autor,
+                    "Actors": actor
+                }, function (err, count) {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.status(200).send({count: count, data: data});
+                });
+            }
         });
     });
 
